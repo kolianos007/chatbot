@@ -1,17 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import { initializeApp } from "firebase/app";
+import "./index.css";
+import App from "./App";
+
+// Initialize Firebase
+initializeApp({
+  apiKey: "AIzaSyDVF_7B7WjyYAI-rj7QUZxKl3bneqaFWEY",
+  authDomain: "chatbot-e6125.firebaseapp.com",
+  projectId: "chatbot-e6125",
+  storageBucket: "chatbot-e6125.appspot.com",
+  messagingSenderId: "364595730647",
+  appId: "1:364595730647:web:c6f35ee3de1540fc87f892",
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
