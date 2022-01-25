@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -9,13 +11,11 @@ const AuthProvider = ({ children }) => {
   const ga = getAuth();
 
   useEffect(() => {
-    // const unListen = onAuthStateChanged((ga, authUser) => {
-    // eslint-disable-next-line no-shadow
     const unListen = onAuthStateChanged(ga, (authUser) => {
       if (authUser) {
         setUser({
           _id: authUser.uid,
-          name: authUser.displayName || "",
+          name: authUser.email || "",
         });
       } else {
         setUser(null);
@@ -35,7 +35,6 @@ const AuthProvider = ({ children }) => {
     }),
     [user]
   );
-  console.log(values);
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
 

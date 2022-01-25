@@ -9,14 +9,22 @@ const AppRouter = () => {
   return user ? (
     <Routes>
       {privateRoutes.map(({ path, Component }) => (
-        <Route path={path} element={<Component />} />
+        <Route
+          key={`${path}-${Component}`}
+          path={path}
+          element={<Component />}
+        />
       ))}
       <Route path="*" element={<Navigate to={CHAT_ROUTE} />} />
     </Routes>
   ) : (
     <Routes>
       {publicRoutes.map(({ path, Component }) => (
-        <Route path={path} element={<Component />} />
+        <Route
+          key={`${path}-${Component}`}
+          path={path}
+          element={<Component />}
+        />
       ))}
       <Route path="*" element={<Navigate to={AUTH_ROUTE} />} />
     </Routes>
