@@ -35,22 +35,10 @@ const Chat = () => {
   const { user } = useAuth();
   console.log(user);
 
-  useEffect(() => {
-    const timeout =
-      isBotActive &&
-      setTimeout(() => {
-        setIsBotActive(false);
-      }, 3000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [isBotActive]);
-
   const addMessageHandler = (name, mess) => {
     console.log(messages);
-    setMessages([
-      ...messages,
+    setMessages((prev) => [
+      ...prev,
       {
         id: messages.length + 1,
         name,
@@ -62,6 +50,20 @@ const Chat = () => {
     setMessage("");
     setIsBotActive(true);
   };
+
+  useEffect(() => {
+    if (isBotActive) addMessageHandler("bot", randomEl(botAnswers));
+    const timeout =
+      isBotActive &&
+      setTimeout(() => {
+        setIsBotActive(false);
+      }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isBotActive]);
+
   return (
     <Box
       sx={{
