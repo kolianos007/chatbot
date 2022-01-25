@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { initializeApp } from "firebase/app";
 import "./index.css";
 import App from "./App";
+import AuthProvider from "./providers/AuthProvider";
 
 // Initialize Firebase
 initializeApp({
@@ -16,7 +17,9 @@ initializeApp({
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,11 +1,12 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AUTH_ROUTE, CHAT_ROUTE } from "../components/utils/consts";
+import useAuth from "../hooks/useAuth";
 import { privateRoutes, publicRoutes } from "./routes";
 
 const AppRouter = () => {
-  const auth = false;
-  return auth ? (
+  const { user } = useAuth();
+  return user ? (
     <Routes>
       {privateRoutes.map(({ path, Component }) => (
         <Route path={path} element={<Component />} />

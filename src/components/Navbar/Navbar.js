@@ -1,10 +1,13 @@
 import { AppBar, Box, Button, Grid, Toolbar, Typography } from "@mui/material";
+import { signOut } from "firebase/auth";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import { AUTH_ROUTE } from "../utils/consts";
 
 const Navbar = () => {
-  const auth = false;
+  const { ga, user } = useAuth();
+  console.log(user);
   return (
     <Box>
       <AppBar position="static">
@@ -13,8 +16,19 @@ const Navbar = () => {
             Chatbot
           </Typography>
           <Grid>
-            {auth ? (
-              <Button color="inherit">Logout</Button>
+            {user ? (
+              <NavLink
+                style={{ textDecoration: "none", color: "#1976D2" }}
+                to={AUTH_ROUTE}
+              >
+                <Button
+                  variant="contained"
+                  color="inherit"
+                  onClick={() => signOut(ga)}
+                >
+                  Logout
+                </Button>
+              </NavLink>
             ) : (
               <NavLink
                 style={{ textDecoration: "none", color: "#1976D2" }}
