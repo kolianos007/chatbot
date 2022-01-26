@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Divider, Fab, Grid, List, TextField } from "@mui/material";
 import { Send as SendIcon } from "@mui/icons-material";
 import useAuth from "../../hooks/useAuth";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import MessageItem from "../../components/MessageItem/MessageItem";
-import BotLoader from "../../components/Loader/BotLoader";
+// import BotLoader from "../../components/Loader/BotLoader";
 
 const botAnswers = [
   "Ne chue baba",
@@ -20,23 +21,13 @@ const randomEl = (arr) => {
 };
 
 const Chat = () => {
-  const [messages, setMessages] = useState([
-    { id: 1, name: "bot", mess: "Kyky" },
-    {
-      id: 2,
-      name: "bla",
-      mess: "ne chye baba ne chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye baba ne chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye babane chye baba",
-    },
-  ]);
-  console.log(messages);
+  const { user } = useAuth();
+  const [messages, setMessages] = useLocalStorage(user.id, []);
   const [message, setMessage] = useState("");
   const [isBotActive, setIsBotActive] = useState(false);
-  console.log(randomEl(botAnswers));
-  const { user } = useAuth();
-  console.log(user);
+  const ref = useRef();
 
   const addMessageHandler = (name, mess) => {
-    console.log(messages);
     setMessages((prev) => [
       ...prev,
       {
@@ -45,11 +36,14 @@ const Chat = () => {
         mess,
       },
     ]);
-    console.log(messages);
 
     setMessage("");
     setIsBotActive(true);
   };
+
+  useEffect(() => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     if (isBotActive) addMessageHandler("bot", randomEl(botAnswers));
@@ -64,6 +58,12 @@ const Chat = () => {
     };
   }, [isBotActive]);
 
+  const onEnterPress = (e) => {
+    console.log(e);
+    if (e.key === "Enter") addMessageHandler(user.name, message);
+    console.log(message);
+  };
+
   return (
     <Box
       sx={{
@@ -71,29 +71,44 @@ const Chat = () => {
         borderRadius: "10px",
         padding: 2,
         margin: 3,
+        overflow: "auto",
+        height: "calc(100vh - 64px)",
       }}
     >
-      <BotLoader />
-      <List style={{ height: "65vh", overflow: "auto", padding: "20px 0" }}>
-        {messages.map(({ id, name, mess }) => (
-          <MessageItem key={id} id={id} name={name} mess={mess} />
+      <List
+        sx={{
+          overflow: "auto",
+          padding: "20px 0",
+          height: "calc(100% - 137px)",
+        }}
+      >
+        {messages.map(({ id, name, mess }, i) => (
+          <MessageItem
+            key={id}
+            id={id}
+            name={name}
+            mess={mess}
+            isBotActive={i === messages.length - 1 && isBotActive}
+          />
         ))}
+        <div style={{ float: "left", clear: "both" }} ref={ref} />
       </List>
       <Divider />
-      <Grid container style={{ padding: "20px" }}>
+      <Grid container sx={{ paddingTop: "20px" }}>
         <Grid item xs={11}>
           <TextField
             id="outlined-basic-email"
             label="Type Something"
             fullWidth
             onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={onEnterPress}
             value={message}
             disabled={isBotActive && true}
           />
         </Grid>
-        <Grid item xs={1}>
+        <Grid item display="flex" justifyContent="flex-end" xs={1}>
           <Fab
-            disabled={isBotActive && true}
+            disabled={(isBotActive && true) || message === ""}
             color="primary"
             onClick={() => addMessageHandler(user.name, message)}
           >

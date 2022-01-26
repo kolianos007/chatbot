@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
     const unListen = onAuthStateChanged(ga, (authUser) => {
       if (authUser) {
         setUser({
-          _id: authUser.uid,
+          id: authUser.uid,
           name: authUser.email || "",
         });
       } else {

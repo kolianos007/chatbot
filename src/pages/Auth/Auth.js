@@ -13,7 +13,6 @@ const Auth = () => {
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [errorMess, setErrorMess] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log(errorMess);
 
   useEffect(() => {
     return () => {};
@@ -30,6 +29,10 @@ const Auth = () => {
           userData.email,
           userData.password
         );
+        setUserData({
+          email: "",
+          password: "",
+        });
       } catch (error) {
         setErrorMess(error.message);
         setLoading(false);
@@ -37,16 +40,15 @@ const Auth = () => {
     } else {
       try {
         await signInWithEmailAndPassword(ga, userData.email, userData.password);
+        setUserData({
+          email: "",
+          password: "",
+        });
       } catch (error) {
         setErrorMess(error.message);
         setLoading(false);
       }
     }
-
-    setUserData({
-      email: "",
-      password: "",
-    });
   };
 
   return (
