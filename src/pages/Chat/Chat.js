@@ -59,9 +59,7 @@ const Chat = () => {
   }, [isBotActive]);
 
   const onEnterPress = (e) => {
-    console.log(e);
     if (e.key === "Enter") addMessageHandler(user.name, message);
-    console.log(message);
   };
 
   return (

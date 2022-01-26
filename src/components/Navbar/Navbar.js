@@ -7,7 +7,6 @@ import { AUTH_ROUTE } from "../utils/consts";
 
 const Navbar = () => {
   const { ga, user } = useAuth();
-  console.log(user);
   return (
     <Box>
       <AppBar position="static">
