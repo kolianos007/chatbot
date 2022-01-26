@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { initializeApp } from "firebase/app";
-import "./index.css";
 import App from "./App";
 import AuthProvider from "./providers/AuthProvider";
+import "./index.css";
 
 // Initialize Firebase
 initializeApp({

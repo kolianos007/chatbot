@@ -4,7 +4,6 @@ import { Send as SendIcon } from "@mui/icons-material";
 import useAuth from "../../hooks/useAuth";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import MessageItem from "../../components/MessageItem/MessageItem";
-// import BotLoader from "../../components/Loader/BotLoader";
 
 const botAnswers = [
   "Ne chue baba",
